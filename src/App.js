@@ -3,12 +3,13 @@ import OverView from "./OverView";
 import Gallery from "./Gallery";
 import { FiSearch, FiMap } from "react-icons/fi";
 import { ImBookmark } from "react-icons/im";
-import { AiOutlineArrowRight } from "react-icons/ai";
 import { FaCarSide } from "react-icons/fa";
 import { IoMdAirplane } from "react-icons/io";
 import { BsFillChatFill, BsFillHouseFill } from "react-icons/bs";
 
 //dummy data
+const notificationAlert = { bookmark: 11, text: 3 };
+const currentUsername = "Jiwa Chhetri";
 const review = [
   {
     title:
@@ -37,66 +38,34 @@ const hotelFacilities = [
   "24-Hour room service",
 ];
 
+const paragraphs = [
+  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi nisi dignissimos debitis ratione sapiente saepe. Accusantium cumque, quas, ut corporis incidunt deserunt quae architecto voluptate.",
+  "Accusantium cumque, quas, ut corporis incidunt deserunt quae architecto voluptate delectus, inventore iure aliquid aliquam",
+];
 const hotelImgName = ["hotel_night", "hotel_water", "hotel_bed"];
 
 const recommenderUserName = ["Jack", "Harry", "Sam", "Sara"];
 
+const recommend = { recommendBy: "Travis", totalRecommender: 5 };
+
 const App = () => {
   return (
     <div className="container">
-      <header className="header">
-        <img src={require("./img/jiwaCh.jpg")} alt="jiwaCh" className="logo" />
-        <div className="search">
-          <input
-            type="text"
-            className="search__input"
-            placeholder="Search hotels"
+      <header class="header">
+        <img src={require(`./img/jiwaCh.jpg`)} alt="" class="logo" />
+        <SearchBar />
+        <nav class="user-nav">
+          <Notification
+            bookmark={notificationAlert.bookmark}
+            text={notificationAlert.text}
+            currentUsername={currentUsername}
           />
-          <FiSearch className="search__btn" />
-        </div>
-
-        <nav className="user-nav">
-          <div className="user-nav__icon-box">
-            <ImBookmark className="user-nav__icon-box__icon" />
-            <span className="user-nav__icon-box__notification">11</span>
-          </div>
-          <div className="user-nav__icon-box">
-            <BsFillChatFill className="user-nav__icon-box__icon" />
-            <span className="user-nav__icon-box__notification">2</span>
-          </div>
-          <div className="user-nav__user-box">
-            <img
-              src={require("./img/jiwa_profile.jpg")}
-              alt=""
-              className="user-nav__user-box__photo"
-            />
-            <span className="user-nav__user-box__user-name">Jiwa</span>
-          </div>
         </nav>
       </header>
-      <div className="content">
-        <nav className="sidebar">
-          <li className="sidebar__list">
-            <a href="#" className="sidebar__list__item">
-              <BsFillHouseFill className="sidebar__list__item_icon" />
-              <span>Hotel</span>
-            </a>
-            <a href="#" className="sidebar__list__item">
-              <IoMdAirplane className="sidebar__list__item_icon" />
-              <span>Flight</span>
-            </a>
-            <a href="#" className="sidebar__list__item">
-              <FaCarSide className="sidebar__list__item_icon" />
-              <span>Car Rental</span>
-            </a>
-            <a href="#" className="sidebar__list__item">
-              <FiMap className="sidebar__list__item_icon" />
-              <span>Tours</span>
-            </a>
-          </li>
-          <div className="sidebar__created"> © 2022 created by Jiwa</div>
-        </nav>
-        <main className="hotel-view">
+
+      <div class="content">
+        <SideBar />
+        <main class="hotel-view">
           <Gallery imageNames={hotelImgName} />
           <OverView
             hotelName={"Sunset Lodge"}
@@ -106,37 +75,27 @@ const App = () => {
             votes={521}
           />
 
-          <div className="detail">
-            <div className="description">
-              <p className="paragraph">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac
-                tristique nisi, viverra egestas dolor. Aenean in neque lorem.
-                Nulla consequat elit at fermentum finibus. Morbi id mauris
-                volutpat quam rhoncus dignissim eu id ex. Donec fringilla, ex ac
-                sagittis porta, felis dolor mollis felis, at sagittis dui lorem
-                in ante.
-              </p>
-              <p className="paragraph">
-                Etiam lectus augue, molestie a convallis id, congue sit amet
-                est. Proin accumsan, mauris porttitor aliquam aliquam, magna
-                enim vestibulum ipsum, et vestibulum nisi eros eget risus. Nunc
-                sed lectus ac lacus cursus sollicitudin.
-              </p>
+          <div class="detail">
+            <div class="description">
+              {paragraphs.map((paragraph) => (
+                <p class="paragraph">{paragraph}</p>
+              ))}
               <HotelFacilities facilities={hotelFacilities} />
-              <div className="recommend">
-                <p className="recommend__count">
-                  Travis and 8 other friends recommend this hotel.
-                </p>
+              <div class="recommend">
+                <Recommend
+                  recommendBy={recommend.recommendBy}
+                  totalRecommender={recommend.totalRecommender}
+                />
                 <RecommenderPhotos userName={recommenderUserName} />
               </div>
             </div>
-            <div className="user-review">
+
+            <div class="user-reviews">
               {review.map(({ title, name, date, rating }) => (
                 <Review title={title} name={name} date={date} rating={rating} />
               ))}
-              <button className="__btn-inline">
-                <span className="__text">Show all</span>
-                <AiOutlineArrowRight className="__icon" />
+              <button class="btn-inline">
+                Show all <span>&rarr;</span>
               </button>
             </div>
           </div>
@@ -147,15 +106,53 @@ const App = () => {
   );
 };
 
+export default App;
+
+const SearchBar = () => (
+  <form action="#" class="search">
+    <input type="text" class="search__input" placeholder="Search hotels" />
+    <button class="search__button">
+      <FiSearch className="search__icon" />
+    </button>
+  </form>
+);
+
+const Notification = ({ bookmark, text, currentUsername }) => (
+  <>
+    <div class="user-nav__icon-box">
+      <ImBookmark className="user-nav__icon" />
+      <span class="user-nav__notification">{bookmark}</span>
+    </div>
+    <div class="user-nav__icon-box">
+      <BsFillChatFill className="user-nav__icon" />
+      <span class="user-nav__notification">{text}</span>
+    </div>
+    <div class="user-nav__user">
+      <img
+        src={require("./img/jiwa_profile.jpg")}
+        alt=""
+        class="user-nav__user-photo"
+      />
+      <span class="user-nav__user-name">{currentUsername}</span>
+    </div>
+  </>
+);
+
+const Recommend = ({ recommendBy, totalRecommender }) => (
+  <p class="recommend__count">
+    {recommendBy} and {totalRecommender} other friends recommend this hotel.
+  </p>
+);
+
 const CallToAction = () => {
   return (
-    <div className="cta">
-      <h2 className="cta__book-now">
-        Good news! We have 4 rooms for your selected date.
+    <div class="cta">
+      <h2 class="cta__book-now">
+        Good news! We have 4 free rooms for your selected dates!
       </h2>
-      <button className="cta__btn">
-        <span className="cta__btn__visible">Book now</span>
-        <span className="cta__btn__invisible">Only 4 rooms left</span>
+      <button class="btn">
+        <span class="btn__visible">Book now</span>
+        <span class="btn__invisible">Only 4 rooms left</span>
       </button>
     </div>
   );
@@ -170,6 +167,39 @@ const HotelFacilities = ({ facilities }) => {
     </ul>
   );
 };
+
+const SideBar = () => (
+  <nav class="sidebar">
+    <ul class="side-nav">
+      <li class="side-nav__item side-nav__item--active">
+        <a href="#" class="side-nav__link">
+          <BsFillHouseFill className="side-nav__icon" />
+          <span>Hotel</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a href="#" class="side-nav__link">
+          <IoMdAirplane className="side-nav__icon" />
+          <span>Flight</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a href="#" class="side-nav__link">
+          <FaCarSide className="side-nav__icon" />
+          <span>Car rental</span>
+        </a>
+      </li>
+      <li class="side-nav__item">
+        <a href="#" class="side-nav__link">
+          <FiMap className="side-nav__icon" />
+          <span>Tours</span>
+        </a>
+      </li>
+    </ul>
+    <div class="legal">© 2022 created by Jiwa</div>
+  </nav>
+);
+
 const Review = ({ title, name, date, rating }) => {
   return (
     <div className="review">
@@ -178,11 +208,11 @@ const Review = ({ title, name, date, rating }) => {
         <img
           src={require(`./img/${name}.jpg`)}
           alt=""
-          className="review__user__photo"
+          className="review__photo"
         />
-        <div className="review__user__info">
-          <p className="review__user__info__name">{name}</p>
-          <p className="review__user__info__date">{date}</p>
+        <div className="review__user-box">
+          <p className="review__user-name">{name}</p>
+          <p className="review__user-date">{date}</p>
         </div>
         <div className="review__rating">{rating}</div>
       </figcaption>
@@ -202,5 +232,3 @@ const RecommenderPhotos = ({ userName }) => (
     ))}
   </div>
 );
-
-export default App;

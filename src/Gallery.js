@@ -16,7 +16,7 @@ const HotelImage = ({ name }) => {
       <img
         src={require(`./img/${name}.jpg`)}
         alt=""
-        className="gallery__item__photo"
+        className="gallery__photo"
       ></img>
     </figure>
   );
