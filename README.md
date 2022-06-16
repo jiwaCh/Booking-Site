@@ -7,5 +7,6 @@ Main focus of this project is to create a visually appeling and <strong>FULLY RE
 
 
 
-https://user-images.githubusercontent.com/78536809/174090908-8cd7ff3b-7443-458c-a4f5-223762631c99.mp4
 
+
+![search-bar](https://user-images.githubusercontent.com/78536809/174091291-b6ebbbcb-e3f6-4a6d-87ab-8b91fc515cb4.gif)
